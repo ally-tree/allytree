@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2D6A4F">
+<title>AllyTree — Free Allied Health Education Hub</title>
+<meta name="description" content="AllyTree is Pakistan's free allied health education platform. Choose your department — LabStem for MLT, RadioStem for MIT, ScrubStem for OTT.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --tree:#2D6A4F;--tree-dark:#1B4332;--tree-light:#40916C;--tree-mid:#74C69D;--tree-pale:#D8F3DC;
+  /* LabStem — Gram Stain Purple/Violet */
+  --lab:#6B21A8;--lab-light:#7C3AED;--lab-pale:#F3E8FF;--lab-dark:#4C1D95;
+  --lab-pink:#BE185D;--lab-pink-light:#EC4899;--lab-pink-pale:#FCE7F3;
+  /* RadioStem — Blue */
+  --radio:#1A56DB;--radio-light:#3B82F6;--radio-pale:#EFF6FF;
+  /* ScrubStem — Surgical Green */
+  --scrub:#2D9596;--scrub-light:#48B4B5;--scrub-pale:#E0F7F7;
+  --ink:#1a1a1a;--ink-light:#3d3d3d;--muted:#6b7280;
+  --surface:#f4f7f4;--white:#fff;
+  --border:rgba(45,106,79,0.13);
+  --shadow-sm:0 2px 12px rgba(45,106,79,0.08);
+  --shadow-md:0 8px 32px rgba(45,106,79,0.12);
+  --shadow-lg:0 20px 60px rgba(45,106,79,0.15);
+  --radius-md:12px;--radius-lg:20px;--radius-xl:28px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--ink);overflow-x:hidden;line-height:1.6;-webkit-tap-highlight-color:transparent}
+
+/* ── CURSOR GLOW ── */
+.cursor-glow{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(116,198,157,0.08) 0%,transparent 70%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:opacity 0.3s;opacity:0}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:200;background:rgba(244,247,244,0.93);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--tree);display:flex;align-items:center;gap:10px;text-decoration:none;transition:transform 0.2s}
+.logo:hover{transform:scale(1.03)}
+.logo-icon{width:36px;height:36px;background:var(--tree);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;animation:logoPulse 3s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 0 0 rgba(45,106,79,0.4)}50%{box-shadow:0 0 0 8px rgba(45,106,79,0)}}
+.nav-links{display:flex;gap:1.75rem;align-items:center;list-style:none}
+.nav-links a{text-decoration:none;color:var(--ink-light);font-size:0.875rem;font-weight:500;transition:color 0.2s;position:relative}
+.nav-links a:not(.btn-nav)::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--tree);border-radius:1px;transition:width 0.2s}
+.nav-links a:not(.btn-nav):hover::after{width:100%}
+.nav-links a:hover{color:var(--tree)}
+.btn-nav{background:var(--tree)!important;color:white!important;padding:9px 22px;border-radius:999px;font-size:0.875rem;font-weight:600;transition:all 0.2s!important;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(45,106,79,0.3)}
+.btn-nav:hover{background:var(--tree-light)!important;transform:translateY(-2px);box-shadow:0 6px 20px rgba(45,106,79,0.4)!important}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:4px;font-size:22px;color:var(--ink)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:5rem 2rem 4rem;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--tree-dark) 0%,var(--tree) 50%,var(--tree-light) 100%)}
+
+/* Floating orbs */
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px)}
+.orb-1{width:700px;height:700px;background:rgba(255,255,255,0.06);top:-200px;right:-200px;animation:orbFloat1 10s ease-in-out infinite}
+.orb-2{width:500px;height:500px;background:rgba(116,198,157,0.12);bottom:-150px;left:-150px;animation:orbFloat2 12s ease-in-out infinite}
+.orb-3{width:300px;height:300px;background:rgba(255,255,255,0.05);top:40%;left:10%;animation:orbFloat1 8s ease-in-out infinite reverse}
+.orb-4{width:200px;height:200px;background:rgba(116,198,157,0.15);top:20%;right:20%;animation:orbFloat2 7s ease-in-out infinite}
+@keyframes orbFloat1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(25px,-25px) scale(1.06)}}
+@keyframes orbFloat2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-20px,30px) scale(1.04)}}
+
+/* Grid overlay */
+.hero-grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+
+/* Particles */
+.hero-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(116,198,157,0.6);animation:particleFloat linear infinite}
+@keyframes particleFloat{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-100px) scale(1);opacity:0}}
+
+.hero-inner{text-align:center;position:relative;z-index:1;max-width:860px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:7px 20px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.9);margin-bottom:1.75rem;backdrop-filter:blur(8px);animation:fadeInDown 0.8s ease both}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:translateY(0)}}
+.hero-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--tree-mid);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.6)}}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(3rem,7vw,5.5rem);color:white;line-height:1.05;margin-bottom:1.25rem;animation:fadeInUp 0.8s 0.2s ease both}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+.hero h1 span{color:var(--tree-mid);font-style:italic;position:relative}
+.hero h1 span::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--tree-mid),transparent);border-radius:2px}
+.hero-sub{font-size:1.1rem;color:rgba(255,255,255,0.72);line-height:1.8;max-width:600px;margin:0 auto 3rem;animation:fadeInUp 0.8s 0.35s ease both}
+.hero-stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,0.12);animation:fadeInUp 0.8s 0.45s ease both}
+.hero-stat{text-align:center}
+.hero-stat-num{font-family:'DM Serif Display',serif;font-size:2.2rem;color:white;display:block;line-height:1}
+.hero-stat-lbl{font-size:0.7rem;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.07em;font-weight:600;margin-top:5px;display:block}
+
+/* DEPT CARDS */
+.dept-prompt{font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:1.25rem;animation:fadeInUp 0.8s 0.55s ease both}
+.dept-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;max-width:800px;margin:0 auto;animation:fadeInUp 0.8s 0.65s ease both}
+.dept-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius-lg);padding:1.75rem 1.25rem;text-align:center;cursor:pointer;transition:all 0.3s;text-decoration:none;position:relative;overflow:hidden;backdrop-filter:blur(10px)}
+.dept-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.3s}
+.dept-card::after{content:'';position:absolute;inset:0;border-radius:var(--radius-lg);border:2px solid transparent;transition:all 0.3s}
+.dept-card:hover{transform:translateY(-8px) scale(1.02)}
+.dept-card:hover::before{opacity:1}
+.dept-card:hover::after{border-color:rgba(255,255,255,0.4)}
+/* Gram stain purple for LabStem */
+.dept-lab::before{background:linear-gradient(135deg,rgba(107,33,168,0.7),rgba(190,24,93,0.5))}
+.dept-lab:hover{box-shadow:0 24px 60px rgba(107,33,168,0.5)}
+.dept-radio::before{background:linear-gradient(135deg,rgba(26,86,219,0.65),rgba(59,130,246,0.45))}
+.dept-radio:hover{box-shadow:0 24px 60px rgba(26,86,219,0.45)}
+.dept-scrub::before{background:linear-gradient(135deg,rgba(45,149,150,0.65),rgba(72,180,181,0.45))}
+.dept-scrub:hover{box-shadow:0 24px 60px rgba(45,149,150,0.45)}
+.dept-card-inner{position:relative;z-index:1}
+.dept-emoji{font-size:2.75rem;display:block;margin-bottom:0.75rem;animation:floatIcon 3s ease-in-out infinite;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3))}
+.dept-card:nth-child(2) .dept-emoji{animation-delay:0.6s}
+.dept-card:nth-child(3) .dept-emoji{animation-delay:1.2s}
+@keyframes floatIcon{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+.dept-name{font-family:'DM Serif Display',serif;font-size:1.35rem;color:white;margin-bottom:4px;display:block}
+.dept-full{font-size:0.68rem;color:rgba(255,255,255,0.6);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.85rem}
+.dept-tag{display:inline-flex;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.22);border-radius:999px;padding:4px 13px;font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.9);text-transform:uppercase;letter-spacing:0.05em}
+.dept-arrow{display:block;margin-top:1rem;font-size:1.3rem;color:rgba(255,255,255,0.4);transition:all 0.2s}
+.dept-card:hover .dept-arrow{transform:translateX(5px);color:white}
+
+/* REAGENT CTA IN HERO */
+.hero-reagent{margin-top:2.5rem;animation:fadeInUp 0.8s 0.75s ease both}
+.btn-reagent-hero{display:inline-flex;align-items:center;gap:10px;background:rgba(239,159,39,0.15);border:1.5px solid rgba(239,159,39,0.4);border-radius:999px;padding:12px 28px;color:rgba(255,255,255,0.85);font-size:0.9rem;font-weight:600;text-decoration:none;transition:all 0.25s;backdrop-filter:blur(8px);font-family:'DM Sans',sans-serif}
+.btn-reagent-hero:hover{background:rgba(239,159,39,0.28);border-color:rgba(239,159,39,0.7);transform:translateY(-2px);box-shadow:0 8px 24px rgba(239,159,39,0.2);color:white}
+.reagent-emoji{font-size:1.1rem;animation:floatIcon 2.5s ease-in-out infinite}
+
+/* SCROLL INDICATOR */
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,0.35);font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;animation:scrollBounce 2s ease-in-out infinite}
+@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,0.4),transparent)}
+
+/* STATS BAND */
+.stats-band{background:linear-gradient(135deg,var(--tree-dark),var(--tree));padding:4.5rem 2.5rem;position:relative;overflow:hidden}
+.stats-band::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,0.06) 1px,transparent 1px);background-size:30px 30px}
+.stats-band-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center;position:relative;z-index:1}
+.band-stat{position:relative}
+.band-stat::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(255,255,255,0.12)}
+.band-stat:last-child::after{display:none}
+.band-stat-num{font-family:'DM Serif Display',serif;font-size:2.8rem;color:white;display:block;line-height:1;margin-bottom:6px}
+.band-stat-lbl{font-size:0.72rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.07em;font-weight:600}
+
+/* SECTION BASE */
+.section{padding:6rem 2.5rem;max-width:1120px;margin:0 auto}
+.section-eyebrow{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--tree);margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
+.section-eyebrow::before{content:'';display:block;width:20px;height:2px;background:var(--tree);border-radius:1px}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,2.8rem);color:var(--ink);margin-bottom:1rem}
+.section-sub{font-size:1rem;color:var(--muted);line-height:1.8;max-width:560px;margin-bottom:3rem}
+.divider{height:1px;background:var(--border);max-width:1120px;margin:0 auto}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+.why-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;transition:all 0.25s;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.why-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--tree-pale),transparent);opacity:0;transition:opacity 0.3s}
+.why-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--tree-mid)}
+.why-card:hover::before{opacity:0.5}
+.why-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:1.25rem;position:relative;z-index:1;transition:transform 0.2s}
+.why-card:hover .why-icon{transform:scale(1.1) rotate(5deg)}
+.why-card h3{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--ink);margin-bottom:0.5rem;position:relative;z-index:1}
+.why-card p{font-size:0.88rem;color:var(--muted);line-height:1.7;position:relative;z-index:1}
+
+/* STEM CARDS */
+.stem-cards{display:flex;flex-direction:column;gap:1.5rem}
+.stem-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-sm);display:grid;grid-template-columns:1fr 1fr;transition:all 0.3s;position:relative}
+.stem-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.stem-lab::before{background:linear-gradient(to bottom,var(--lab),var(--lab-pink))}
+.stem-radio::before{background:linear-gradient(to bottom,var(--radio),var(--radio-light))}
+.stem-scrub::before{background:linear-gradient(to bottom,var(--scrub),var(--scrub-light))}
+.stem-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.stem-info{padding:2.5rem 2.5rem 2.5rem 3rem}
+.stem-badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:5px 16px;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:1.25rem}
+/* LabStem gram stain badge */
+.stem-lab .stem-badge{background:linear-gradient(135deg,var(--lab-pale),var(--lab-pink-pale));color:var(--lab)}
+.stem-radio .stem-badge{background:var(--radio-pale);color:var(--radio)}
+.stem-scrub .stem-badge{background:var(--scrub-pale);color:var(--scrub)}
+.stem-name{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--ink);margin-bottom:0.4rem}
+/* LabStem name gram stain */
+.stem-lab .stem-name{background:linear-gradient(135deg,var(--lab),var(--lab-pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stem-dept{font-size:0.85rem;color:var(--muted);font-weight:500;margin-bottom:1.25rem}
+.stem-features{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.75rem}
+.stem-feature{display:flex;align-items:center;gap:10px;font-size:0.875rem;color:var(--ink-light)}
+.stem-feature-icon{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.stem-lab .stem-feature-icon{background:var(--lab-pale)}
+.stem-radio .stem-feature-icon{background:var(--radio-pale)}
+.stem-scrub .stem-feature-icon{background:var(--scrub-pale)}
+.stem-cta{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:12px 24px;font-size:0.9rem;font-weight:600;text-decoration:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,0.15)}
+/* LabStem CTA gram stain gradient */
+.stem-lab .stem-cta{background:linear-gradient(135deg,var(--lab),var(--lab-pink));color:white}
+.stem-lab .stem-cta:hover{background:linear-gradient(135deg,var(--lab-light),var(--lab-pink-light));transform:translateY(-2px);box-shadow:0 6px 20px rgba(107,33,168,0.35)}
+.stem-radio .stem-cta{background:var(--radio);color:white}
+.stem-radio .stem-cta:hover{background:var(--radio-light);transform:translateY(-2px)}
+.stem-scrub .stem-cta{background:var(--scrub);color:white}
+.stem-scrub .stem-cta:hover{background:var(--scrub-light);transform:translateY(-2px)}
+.stem-visual{display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;min-height:220px}
+/* LabStem visual gram stain */
+.stem-lab .stem-visual{background:linear-gradient(135deg,var(--lab-pale),var(--lab-pink-pale),#F3E8FF)}
+.stem-radio .stem-visual{background:linear-gradient(135deg,var(--radio-pale),#BFDBFE)}
+.stem-scrub .stem-visual{background:linear-gradient(135deg,var(--scrub-pale),#A5F3F3)}
+.stem-visual-emoji{font-size:5.5rem;animation:floatIcon 4s ease-in-out infinite;user-select:none;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.15))}
+.stem-coming{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:9px 18px;font-size:0.8rem;font-weight:600;color:var(--muted)}
+
+/* BUY REAGENT SECTION */
+.reagent-section{background:linear-gradient(140deg,#7C2D12 0%,#92400E 40%,#B45309 100%);padding:5rem 2.5rem;position:relative;overflow:hidden}
+.reagent-section::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);background-size:25px 25px}
+.reagent-section::after{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,0.04);filter:blur(40px)}
+.reagent-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;position:relative;z-index:1}
+.reagent-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:5px 15px;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.85);margin-bottom:1.25rem}
+.reagent-section h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:white;margin-bottom:1rem;line-height:1.2}
+.reagent-section p{color:rgba(255,255,255,0.7);font-size:1rem;line-height:1.75;max-width:520px;margin-bottom:2rem}
+.reagent-tiers{display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.75rem}
+.tier-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.22);border-radius:var(--radius-md);color:white;padding:10px 18px;font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;text-align:left}
+.tier-btn .tier-amount{font-weight:700;font-size:1rem;margin-top:2px}
+.tier-btn:hover,.tier-btn.active{background:rgba(255,255,255,0.95);color:#7C2D12;border-color:white}
+.reagent-pay{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.pay-btn{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:var(--radius-md);padding:12px 16px;color:white;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:500;text-decoration:none;transition:all 0.2s}
+.pay-btn:hover{background:rgba(255,255,255,0.18)}
+.pay-icon{font-size:20px}
+.reagent-flask{font-size:9rem;animation:flaskFloat 3.5s ease-in-out infinite;user-select:none;filter:drop-shadow(0 10px 30px rgba(0,0,0,0.3))}
+@keyframes flaskFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-16px) rotate(4deg)}}
+
+/* MISSION */
+.mission-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.mission-text h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);color:var(--ink);margin-bottom:1rem;line-height:1.2}
+.mission-text p{font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+.mission-quote{background:var(--tree-pale);border-left:4px solid var(--tree);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:1.25rem 1.5rem;font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--tree-dark);font-style:italic;line-height:1.6;margin-top:1.5rem;position:relative}
+.mission-quote::before{content:'"';position:absolute;top:-10px;left:16px;font-size:3rem;color:var(--tree-mid);font-family:'DM Serif Display',serif;line-height:1}
+.mission-visual{background:linear-gradient(135deg,var(--tree-dark),var(--tree));border-radius:var(--radius-xl);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
+.mission-visual::before{content:'';position:absolute;top:-40px;right:-40px;width:250px;height:250px;border-radius:50%;background:rgba(255,255,255,0.05);filter:blur(30px)}
+.mission-tree{font-size:5rem;display:block;margin-bottom:1rem;animation:floatIcon 4s ease-in-out infinite;position:relative;z-index:1;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.3))}
+.mission-visual h3{font-family:'DM Serif Display',serif;font-size:1.5rem;color:white;margin-bottom:0.5rem;position:relative;z-index:1}
+.mission-visual p{font-size:0.85rem;color:rgba(255,255,255,0.7);position:relative;z-index:1;line-height:1.7}
+.branch-list{display:flex;flex-direction:column;gap:0.6rem;margin-top:1.5rem;position:relative;z-index:1}
+.branch-item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius-md);padding:10px 14px;color:white;font-size:0.85rem;font-weight:500;transition:all 0.2s}
+.branch-item:hover{background:rgba(255,255,255,0.18);transform:translateX(4px)}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,0.55);padding:4rem 2.5rem 2.5rem}
+.footer-inner{max-width:1120px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.footer-logo{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--tree-mid);display:flex;align-items:center;gap:10px;margin-bottom:0.75rem}
+.footer-logo-icon{width:34px;height:34px;background:var(--tree);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.footer-desc{font-size:0.875rem;line-height:1.7;color:rgba(255,255,255,0.4);max-width:260px}
+.footer-col h5{font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.footer-col a{text-decoration:none;font-size:0.875rem;color:rgba(255,255,255,0.4);transition:color 0.2s}
+.footer-col a:hover{color:var(--tree-mid)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;font-size:0.78rem;color:rgba(255,255,255,0.22);flex-wrap:wrap;gap:1rem}
+.footer-stems{display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1rem}
+.footer-stem-badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 12px;font-size:0.68rem;font-weight:700}
+.fs-lab{background:rgba(107,33,168,0.3);color:#E9D5FF}
+.fs-radio{background:rgba(26,86,219,0.3);color:#BFDBFE}
+.fs-scrub{background:rgba(45,149,150,0.3);color:#A5F3F3}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:0 1.25rem}
+  .dept-cards{grid-template-columns:1fr;max-width:360px}
+  .stem-card{grid-template-columns:1fr}
+  .stem-visual{min-height:160px}
+  .stats-band-inner{grid-template-columns:repeat(2,1fr)}
+  .mission-wrap{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem}
+  .section{padding:4rem 1.5rem}
+  .reagent-inner{grid-template-columns:1fr}
+  .reagent-flask{display:none}
+}
+@media(max-width:640px){
+  nav{height:56px;padding:0 1rem}
+  .logo{font-size:1.25rem}
+  .logo-icon{width:30px;height:30px;font-size:15px}
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;inset:56px 0 0 0;background:rgba(244,247,244,0.98);backdrop-filter:blur(16px);padding:2rem 1.5rem;gap:1.25rem;z-index:199;overflow-y:auto}
+  .nav-links.open a{font-size:1rem;padding:0.5rem 0;border-bottom:1px solid var(--border)}
+  .nav-toggle{display:block}
+  .hero{padding:4rem 1rem 3rem;min-height:auto}
+  .hero h1{font-size:clamp(2.2rem,8vw,3.2rem)}
+  .hero-sub{font-size:0.95rem}
+  .hero-stats{gap:1.25rem}
+  .dept-cards{grid-template-columns:1fr;gap:0.75rem}
+  .dept-card{padding:1.25rem}
+  .stats-band{padding:3rem 1.25rem}
+  .stats-band-inner{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+  .section{padding:3rem 1rem}
+  .reagent-section{padding:3.5rem 1.25rem}
+  .reagent-pay{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr;gap:1.75rem}
+  footer{padding:3rem 1.25rem 2rem}
+  .footer-bottom{flex-direction:column;gap:0.75rem;text-align:center}
+  .band-stat::after{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">🌳</div>
+    AllyTree
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#departments">Departments</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#reagent">Support Us</a></li>
+    <li><a href="lableaf/index.html" class="btn-nav">🧪 Enter LabStem</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-orb orb-1"></div>
+  <div class="hero-orb orb-2"></div>
+  <div class="hero-orb orb-3"></div>
+  <div class="hero-orb orb-4"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Free Allied Health Education · Pakistan
+    </div>
+    <h1>One tree.<br><span>Every branch.</span></h1>
+    <p class="hero-sub">AllyTree is Pakistan's free education hub for allied health students. Choose your department and access free notes, MCQ banks, practical books, viva prep, and 1-on-1 guidance.</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">3</span><span class="hero-stat-lbl">Departments</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">100%</span><span class="hero-stat-lbl">Free Forever</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">UHS</span><span class="hero-stat-lbl">Aligned</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">1:1</span><span class="hero-stat-lbl">Guidance</span></div>
+    </div>
+
+    <div class="dept-prompt">Choose your department to get started</div>
+    <div class="dept-cards" id="departments">
+      <a href="lableaf/index.html" class="dept-card dept-lab">
+        <div class="dept-card-inner">
+          <span class="dept-emoji">🧪</span>
+          <span class="dept-name">LabStem</span>
+          <span class="dept-full">Medical Laboratory Technology</span>
+          <span class="dept-tag">✅ Live Now</span>
+          <span class="dept-arrow">→</span>
+        </div>
+      </a>
+      <a href="#coming-radio" class="dept-card dept-radio">
+        <div class="dept-card-inner">
+          <span class="dept-emoji">🩻</span>
+          <span class="dept-name">RadioStem</span>
+          <span class="dept-full">Medical Imaging Technology</span>
+          <span class="dept-tag">⏳ Coming Soon</span>
+          <span class="dept-arrow">→</span>
+        </div>
+      </a>
+      <a href="#coming-scrub" class="dept-card dept-scrub">
+        <div class="dept-card-inner">
+          <span class="dept-emoji">🩺</span>
+          <span class="dept-name">ScrubStem</span>
+          <span class="dept-full">Operation Theater Technology</span>
+          <span class="dept-tag">⏳ Coming Soon</span>
+          <span class="dept-arrow">→</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="hero-reagent">
+      <a href="#reagent" class="btn-reagent-hero">
+        <span class="reagent-emoji">🧪</span>
+        Love what we're building? Buy us a reagent
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>scroll to explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stats-band-inner">
+    <div class="band-stat reveal"><span class="band-stat-num">400+</span><span class="band-stat-lbl">MCQs Live</span></div>
+    <div class="band-stat reveal reveal-delay-1"><span class="band-stat-num">3</span><span class="band-stat-lbl">Departments</span></div>
+    <div class="band-stat reveal reveal-delay-2"><span class="band-stat-num">PKR 0</span><span class="band-stat-lbl">Cost to Students</span></div>
+    <div class="band-stat reveal reveal-delay-3"><span class="band-stat-num">∞</span><span class="band-stat-lbl">Knowledge</span></div>
+  </div>
+</div>
+
+<!-- WHY ALLYTREE -->
+<section id="about">
+  <div class="section">
+    <div class="section-eyebrow reveal">Why AllyTree</div>
+    <div class="section-title reveal">Built for allied health. By allied health.</div>
+    <p class="section-sub reveal">Allied health students in Pakistan have always been underserved when it comes to quality, free, curriculum-aligned study material. AllyTree exists to fix that.</p>
+    <div class="why-grid">
+      <div class="why-card reveal"><div class="why-icon" style="background:#D8F3DC;">🆓</div><h3>Always Free</h3><p>Every resource — notes, MCQs, practical books, viva prep — is completely free. No subscription. No paywall. Ever.</p></div>
+      <div class="why-card reveal reveal-delay-1"><div class="why-icon" style="background:#E1F5EE;">🎓</div><h3>UHS Aligned</h3><p>All content is built around the exact UHS B.Sc. syllabus. Only what you actually need for your exams and vivas.</p></div>
+      <div class="why-card reveal reveal-delay-2"><div class="why-icon" style="background:#EFF6FF;">🧠</div><h3>Practice On-Site</h3><p>MCQ banks built directly into the platform. Solve questions, get instant feedback, retry wrong answers — no downloads.</p></div>
+      <div class="why-card reveal"><div class="why-icon" style="background:#E0F7F7;">🤝</div><h3>1-on-1 Guidance</h3><p>Book a free personal session with a senior student who has been through the same rotations, exams, and vivas.</p></div>
+      <div class="why-card reveal reveal-delay-1"><div class="why-icon" style="background:#FAEEDA;">📱</div><h3>Mobile Friendly</h3><p>Study on any device — phone, tablet, or laptop. AllyTree is fully responsive so you can revise anywhere, anytime.</p></div>
+      <div class="why-card reveal reveal-delay-2"><div class="why-icon" style="background:#D8F3DC;">🌱</div><h3>Always Growing</h3><p>New content added regularly. More subjects, more semesters, more departments — AllyTree grows with you.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEPARTMENTS -->
+<section>
+  <div class="section">
+    <div class="section-eyebrow reveal">Our Departments</div>
+    <div class="section-title reveal">Three stems. One tree.</div>
+    <p class="section-sub reveal">Each department has its own dedicated platform, curriculum, and community — all under the AllyTree umbrella.</p>
+    <div class="stem-cards">
+
+      <div class="stem-card stem-lab reveal">
+        <div class="stem-info">
+          <div class="stem-badge">🧪 Live Now</div>
+          <div class="stem-name">LabStem</div>
+          <div class="stem-dept">Medical Laboratory Technology (B.Sc. MLT)</div>
+          <div class="stem-features">
+            <div class="stem-feature"><div class="stem-feature-icon">✅</div>Semester 3 & 4 resources fully live</div>
+            <div class="stem-feature"><div class="stem-feature-icon">✅</div>400+ General Pathology MCQs with explanations</div>
+            <div class="stem-feature"><div class="stem-feature-icon">✅</div>Practical books, viva prep & recommended books</div>
+            <div class="stem-feature"><div class="stem-feature-icon">✅</div>Free 1-on-1 guidance sessions available now</div>
+            <div class="stem-feature"><div class="stem-feature-icon">✅</div>Interactive MCQ widget — practice on-site</div>
+          </div>
+          <a href="lableaf/index.html" class="stem-cta">Enter LabStem →</a>
+        </div>
+        <div class="stem-visual"><span class="stem-visual-emoji">🧪</span></div>
+      </div>
+
+      <div class="stem-card stem-radio reveal" id="coming-radio">
+        <div class="stem-info">
+          <div class="stem-badge">🩻 Coming Soon</div>
+          <div class="stem-name">RadioStem</div>
+          <div class="stem-dept">Medical Imaging Technology (B.Sc. MIT)</div>
+          <div class="stem-features">
+            <div class="stem-feature"><div class="stem-feature-icon">⏳</div>Radiology & imaging notes in development</div>
+            <div class="stem-feature"><div class="stem-feature-icon">⏳</div>Physics of X-ray, CT, MRI, Ultrasound</div>
+            <div class="stem-feature"><div class="stem-feature-icon">⏳</div>Radiation protection & safety MCQs</div>
+            <div class="stem-feature"><div class="stem-feature-icon">⏳</div>Practical guides for imaging modalities</div>
+          </div>
+          <span class="stem-coming">⏳ Launching Soon</span>
+        </div>
+        <div class="stem-visual"><span class="stem-visual-emoji">🩻</span></div>
+      </div>
+
+      <div class="stem-card stem-scrub reveal" id="coming-scrub">
+        <div class="stem-info">
+          <div class="stem-badge">🩺 Coming Soon</div>
+          <div class="stem-name">ScrubStem</div>
+          <div class="stem-dept">Operation Theater Technology (B.Sc. OTT)</div>
+          <div class="stem-features">
+            <div class="stem-feature"><div class="stem-feature-icon">⏳</div>Surgical instruments & procedures notes</div>
+            <div class="stem-feature"><div class="stem-feature-icon">⏳</div>Sterilization & aseptic technique guides</div>
+            <div class="stem-feature"><div class="stem-feature-icon">⏳</div>Anesthesia & patient positioning MCQs</div>
+            <div class="stem-feature"><div class="stem-feature-icon">⏳</div>OT protocols & scrub technique viva prep</div>
+          </div>
+          <span class="stem-coming">⏳ Launching Soon</span>
+        </div>
+        <div class="stem-visual"><span class="stem-visual-emoji">🩺</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BUY A REAGENT -->
+<div class="reagent-section" id="reagent">
+  <div class="reagent-inner">
+    <div>
+      <div class="reagent-eyebrow">✨ Support AllyTree</div>
+      <h2>Buy us a reagent 🧪</h2>
+      <p>AllyTree is free — and will always stay free. But if our resources helped you pass a viva, ace a practical, or finally understand a tough concept, a small donation keeps the platform alive and growing.</p>
+      <div class="reagent-tiers">
+        <button class="tier-btn active" onclick="setTier(this)">🧪 Test Tube<span class="tier-amount">Rs. 50</span></button>
+        <button class="tier-btn" onclick="setTier(this)">⚗️ Stain Kit<span class="tier-amount">Rs. 100</span></button>
+        <button class="tier-btn" onclick="setTier(this)">🔬 Reagent Set<span class="tier-amount">Rs. 250</span></button>
+        <button class="tier-btn" onclick="setTier(this)">🧫 Full Lab Kit<span class="tier-amount">Rs. 500</span></button>
+      </div>
+      <p style="font-size:0.8rem;color:rgba(255,255,255,0.45);margin-bottom:1rem">Send via EasyPaisa or JazzCash:</p>
+      <div class="reagent-pay">
+        <a href="tel:03340291818" class="pay-btn"><span class="pay-icon">📱</span><div><strong style="display:block;font-size:0.82rem">EasyPaisa</strong><span style="font-size:0.75rem;opacity:0.7">0334-0291818</span></div></a>
+        <a href="tel:03340291818" class="pay-btn"><span class="pay-icon">💚</span><div><strong style="display:block;font-size:0.82rem">JazzCash</strong><span style="font-size:0.75rem;opacity:0.7">0334-0291818</span></div></a>
+      </div>
+      <p style="margin-top:1rem;font-size:0.76rem;color:rgba(255,255,255,0.35)">After sending, WhatsApp Faizan a screenshot — your name goes on our Wall of Supporters 🏆</p>
+    </div>
+    <div class="reagent-flask">🧫</div>
+  </div>
+</div>
+
+<!-- MISSION -->
+<section id="mission">
+  <div class="section">
+    <div class="mission-wrap">
+      <div class="mission-text reveal">
+        <div class="section-eyebrow">Our Mission</div>
+        <h2>Allied health students deserve better resources.</h2>
+        <p>In Pakistan, allied health professionals — lab technologists, radiographers, OT technologists — are the backbone of the healthcare system. Yet they receive the least support when it comes to quality education materials.</p>
+        <p>AllyTree was built to change that. Starting from a single student at DGKMC who decided to build the resource he wished existed, AllyTree is growing into a platform for every allied health student in Pakistan.</p>
+        <div class="mission-quote">Free knowledge. No white coat required.</div>
+      </div>
+      <div class="mission-visual reveal reveal-delay-1">
+        <span class="mission-tree">🌳</span>
+        <h3>AllyTree</h3>
+        <p>One platform. Three departments.<br>Thousands of students.</p>
+        <div class="branch-list">
+          <div class="branch-item">🧪 LabStem — MLT Students</div>
+          <div class="branch-item">🩻 RadioStem — MIT Students</div>
+          <div class="branch-item">🩺 ScrubStem — OTT Students</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo"><div class="footer-logo-icon">🌳</div>AllyTree</div>
+        <p class="footer-desc">Free allied health education for every student in Pakistan. Built by students, for students.</p>
+        <div class="footer-stems">
+          <span class="footer-stem-badge fs-lab">🧪 LabStem</span>
+          <span class="footer-stem-badge fs-radio">🩻 RadioStem</span>
+          <span class="footer-stem-badge fs-scrub">🩺 ScrubStem</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Departments</h5>
+        <ul>
+          <li><a href="lableaf/index.html">🧪 LabStem — MLT</a></li>
+          <li><a href="#coming-radio">🩻 RadioStem — MIT</a></li>
+          <li><a href="#coming-scrub">🩺 ScrubStem — OTT</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>LabStem</h5>
+        <ul>
+          <li><a href="lableaf/index.html#semesters">Resources</a></li>
+          <li><a href="lableaf/mcq.html">MCQ Bank</a></li>
+          <li><a href="lableaf/index.html#mentorship">Book a Session</a></li>
+          <li><a href="#reagent">Buy a Reagent</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="https://sites.google.com/view/faizanishaqmlt/home" target="_blank">Portfolio</a></li>
+          <li><a href="mailto:m.faizan.buziness@gmail.com">Email Faizan</a></li>
+          <li><a href="https://wa.me/923340291818" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AllyTree · Built by Faizan Ishaq · DGKMC, D.G. Khan, Pakistan</span>
+      <span>Free forever · No ads · No paywall</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav toggle
+document.getElementById('navToggle').addEventListener('click',function(){
+  const l=document.getElementById('navLinks');l.classList.toggle('open');
+  this.textContent=l.classList.contains('open')?'✕':'☰';
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();window.scrollTo({top:t.offsetTop-80,behavior:'smooth'});document.getElementById('navLinks').classList.remove('open');document.getElementById('navToggle').textContent='☰';}
+  });
+});
+
+// Cursor glow
+const glow=document.getElementById('cursorGlow');
+document.addEventListener('mousemove',e=>{
+  glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';glow.style.opacity='1';
+});
+document.addEventListener('mouseleave',()=>glow.style.opacity='0');
+
+// Particles
+const container=document.getElementById('heroParticles');
+for(let i=0;i<25;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.cssText=`left:${Math.random()*100}%;width:${2+Math.random()*4}px;height:${2+Math.random()*4}px;animation-duration:${6+Math.random()*10}s;animation-delay:${Math.random()*10}s;opacity:${0.3+Math.random()*0.5}`;
+  container.appendChild(p);
+}
+
+// Scroll reveal
+const reveals=document.querySelectorAll('.reveal');
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
+},{threshold:0.12});
+reveals.forEach(r=>revealObs.observe(r));
+
+// Tier selector
+function setTier(btn){document.querySelectorAll('.tier-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+</script>
+</body>
+</html>
